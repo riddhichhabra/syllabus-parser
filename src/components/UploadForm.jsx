@@ -1,21 +1,10 @@
 import { useState } from "react";
 
-function UploadForm() {
-    const [file, setFile] = useState(null);
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        if (!file){
-            return alert("Please upload a PDF file first!");
-        }
-
-        // Add function for what happens on submitting
-    };
+function UploadForm({file, setFile, handleUpload}) {
 
   return (
     <form 
-        onSubmit={handleSubmit}
+        onSubmit={handleUpload}
         className="mb-4 flex flex-col items-center"
     >
       <input 
