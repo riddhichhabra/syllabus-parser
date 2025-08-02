@@ -1,17 +1,15 @@
 function Results({ data }) {
     if (!data || data.length === 0){
         return (
-            <div className="mt-8 w-full max-w-md bg-white p-4 rounded-xl shadow-sm items-center">
+            <div className="mt-8 w-[50vw] max-w-full bg-white p-4 rounded-xl shadow-sm items-center">
                 <h2 className="text-2xl font-semibold text-[#500000] mb-4 items-center"> <center> Exam Schedule</center></h2>
                 <span className="text-gray-500"> <center> Upload a syllabus to see the exam schedule!</center></span>
             </div>
         );
     }
-
-    // change mockData to data later
     
     return (
-        <div className="mt-8 w-full max-w-md bg-white p-4 rounded-xl shadow-sm">
+        <div className="mt-8 w-[50vw] max-w-full bg-white p-4 rounded-xl shadow-sm">
         <h2 className="text-2xl font-semibold text-[#500000] mb-4 items-center"><center>Exam Schedule</center></h2>
         <ul>
             {data.map((exam, index) => (
