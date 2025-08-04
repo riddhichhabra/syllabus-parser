@@ -1,3 +1,5 @@
+const API_URL = "http://localhost:5050";
+
 function Results({ data }) {
     if (!data || data.length === 0){
         return (
@@ -21,8 +23,9 @@ function Results({ data }) {
                 <span className="text-gray-500">
                     <ul>
                         {exam.exams.map((item,index)=> (
-                            <li key={index} className="text-gray-500">
-                                {item.title}: {item.date}
+                            <li key={index} className="text-gray-500 flex flex-col">
+                                <h4> {item.title}: {item.date} </h4>
+                                <a href={`${API_URL}/download/${item.filename}`} download className="text-blue-500"> <button> Download Calendar </button> </a>
                             </li>
                         ))}
                     </ul>

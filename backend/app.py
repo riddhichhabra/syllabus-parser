@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import fitz
 import os
@@ -7,6 +7,8 @@ import requests
 from dotenv import load_dotenv
 import json
 import re
+from ics import Calendar, Event
+import string
 
 load_dotenv()
 api_key = os.getenv("PERPLEXITY_API_KEY")
@@ -16,6 +18,9 @@ CORS(app, origins=["http://localhost:5173"])
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+CALENDAR_FOLDER = 'calendar_files'
+os.makedirs(CALENDAR_FOLDER, exist_ok=True)
 
 @app.route('/')
 def index():
@@ -50,8 +55,40 @@ def uploadFile():
             ]
         }
     ]
+
+    generateCalFiles(structured_resp)
+
     return jsonify(structured_resp)
 
+@app.route("/download/<filename>")
+def downloadCalendar(filename):
+    filename = secure_filename(filename)
+    file_path = os.path.join(CALENDAR_FOLDER, filename)
+    return send_file(file_path, as_attachment=True)
+
+
+def generateCalFiles(exam_data, cal_folder=CALENDAR_FOLDER):
+
+    for course in exam_data:
+        course_name = course["course"].replace(" ", "_")
+
+        for exams in course["exams"]:
+            title = exams["title"]
+            date = exams["date"]
+
+            c = Calendar()
+            e = Event()
+
+            e.name = f"{course_name} - {title}"
+            e.begin = date
+            c.events.add(e)
+
+            cal_file = course_name + title.replace(" ", "_") + ".ics"
+            cal_file2 = safe_filename(cal_file)
+            cal_file_path = os.path.join(cal_folder, cal_file2)
+            exams["filename"] = cal_file2
+            with open (cal_file_path, 'w') as f:
+                f.writelines(c.serialize_iter())
 
 def extractTextFromPDF(file_path):
     text = ""
@@ -102,7 +139,7 @@ If the **final exam date is not explicitly mentioned**, infer it based on the co
 - 1:00–3:00 p.m. → TR 2:20–3:35 p.m. or TR 3:05–4:20 p.m.
 - 3:30–5:30 p.m. → TR 5:30–6:45 p.m. or TR 6:15–7:30 p.m.
 
-Only return valid JSON. Do not include any explanation or commentary.
+Only return valid JS Object structured so: . Do not include any explanation or commentary.
 Return the result in the following format:
 [
     {{
@@ -146,6 +183,10 @@ Syllabus: {text}
     else:
         print("Perplexity API error:", response.text)
         return "Error: Could not analyze syllabus."
+
+def safe_filename(name):
+    valid_chars = f"-_.() {string.ascii_letters}{string.digits}"
+    return ''.join(c if c in valid_chars else '_' for c in name)
 
 if __name__ == "__main__":
     app.run(debug=True)

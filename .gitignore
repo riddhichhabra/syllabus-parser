@@ -27,3 +27,4 @@ dist-ssr
 backend/.env
 
 uploads
+backend/calendar_files
