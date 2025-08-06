@@ -10,8 +10,10 @@ import re
 from ics import Calendar, Event
 import string
 
-load_dotenv()
-api_key = os.getenv("PERPLEXITY_API_KEY")
+# load_dotenv()
+# api_key = os.getenv("PERPLEXITY_API_KEY")
+
+api_key = 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
 
 app = Flask(__name__)
 CORS(app)
