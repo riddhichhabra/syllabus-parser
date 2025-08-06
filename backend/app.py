@@ -14,7 +14,7 @@ load_dotenv()
 api_key = os.getenv("PERPLEXITY_API_KEY")
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173"])
+CORS(app)
 
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
