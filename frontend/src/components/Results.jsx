@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5050";
+const API_URL = "https://riddhic.pythonanywhere.com";
 
 function Results({ data }) {
     if (!data || data.length === 0){
