@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # env file
-backend/.env
+# backend/.env
 
 uploads
 backend/calendar_files
