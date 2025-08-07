@@ -1,4 +1,4 @@
-const API_URL = "https://riddhic.pythonanywhere.com";
+const API_URL = "https://syllabus-parser.onrender.com";
 
 function Results({ data }) {
     if (!data || data.length === 0){

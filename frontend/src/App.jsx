@@ -6,7 +6,7 @@ import Results from "./components/Results";
 function App() {
     const [file, setFile] = useState(null);
     const [data, setData] = useState([]);
-    const API_URL = "https://riddhic.pythonanywhere.com";
+    const API_URL = "https://syllabus-parser.onrender.com";
 
     const handleUpload = async (e) => {
         e.preventDefault();
